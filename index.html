@@ -59,36 +59,43 @@ nav {
   background: url('trainstation.jpg') center center / cover no-repeat;
   filter: brightness(1.0);
 }
-/* Subtle dark strip only at very bottom so button is readable */
-.hero-overlay {
+/* Question floats at top of image above the meme text */
+.hero-question {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, rgba(10,22,40,0.75));
-}
-/* Button pinned to bottom center of photo */
-.hero-cta-wrap {
-  position: absolute;
-  bottom: 40px;
+  top: 60px;
   left: 0; right: 0;
   text-align: center;
   z-index: 2;
+  padding: 0 24px;
+}
+.hero-question p {
+  font-family: 'Georgia', serif;
+  font-size: clamp(22px, 4vw, 38px);
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 4px 20px rgba(0,0,0,0.6);
+  line-height: 1.4;
+}
+/* Button below the image */
+.hero-cta-section {
+  background: var(--navy);
+  text-align: center;
+  padding: 28px 24px 48px;
 }
 .hero-cta {
   display: inline-block;
   background: var(--gold);
   color: var(--navy);
   font-family: Arial, sans-serif;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
-  padding: 18px 40px;
+  padding: 18px 48px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   transition: background .2s, transform .1s;
-  letter-spacing: .01em;
+  letter-spacing: .02em;
 }
 .hero-cta:hover { background: var(--gold-light); }
 .hero-cta:active { transform: scale(.98); }
@@ -776,17 +783,19 @@ footer span { color: rgba(201,168,76,0.6); }
 </nav>
 
 <!-- ══════════════════════════════════════════
-     HERO — TRAIN STATION — FULL SCREEN
+     HERO — TRAIN STATION — PURE PHOTO
 ════════════════════════════════════════════ -->
 <section class="hero" id="hero-section">
   <div class="hero-img"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-cta-wrap">
-    <button class="hero-cta" onclick="startJourney()">
-      🚂 How Do You Board the Health Train? — Find Out Now
-    </button>
+  <div class="hero-question">
+    <p>How Do You Board the Health Train?</p>
   </div>
 </section>
+
+<!-- BUTTON BELOW IMAGE -->
+<div class="hero-cta-section">
+  <button class="hero-cta" onclick="startJourney()">Find Out How</button>
+</div>
 
 <!-- ══════════════════════════════════════════
      SCREEN: CONTACT / RELATIONSHIP ROUTING
