@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before Your Personal Health Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', Arial, sans-serif; background: #fdf8ef; color: #1a1a2e; min-height: 100vh; }
+
+.header { background: #0a1628; padding: 36px 24px; text-align: center; }
+.header-badge { display: inline-block; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); color: #e8c97a; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #ffffff; margin-bottom: 8px; }
+.header h1 span { color: #c9a84c; }
+.header p { color: rgba(255,255,255,0.5); font-size: 14px; }
+
+.progress-bar-wrap { background: #112240; padding: 12px 24px; display: none; }
+.progress-bar-inner { max-width: 700px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+.progress-fill { height: 100%; background: #c9a84c; border-radius: 3px; transition: width 0.3s; width: 0%; }
+.progress-text { color: #c9a84c; font-size: 13px; font-weight: 600; min-width: 100px; }
+
+.main { max-width: 700px; margin: 0 auto; padding: 32px 20px 60px; }
+
+.card { background: #ffffff; border: 1px solid #e5d9c3; border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+.card h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: #0a1628; margin-bottom: 6px; }
+.card .sub { color: #6b7280; font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+
+.disclosure { background: #f5e6c0; border: 1px solid #d9c48c; border-radius: 12px; padding: 24px 26px; margin-bottom: 20px; }
+.disclosure h2 { font-family: 'Playfair Display', serif; font-size: 20px; color: #0a1628; margin-bottom: 12px; }
+.disclosure p { color: #4a4436; font-size: 15px; line-height: 1.7; margin-bottom: 18px; }
+.agree-row { display: flex; align-items: flex-start; gap: 12px; background: #fff; border: 2px solid #d9c48c; border-radius: 10px; padding: 14px 16px; cursor: pointer; }
+.agree-row input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; cursor: pointer; accent-color: #0a1628; }
+.agree-row label { font-size: 14px; font-weight: 600; color: #0a1628; cursor: pointer; line-height: 1.5; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.fg { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.fg label { font-size: 13px; font-weight: 600; color: #0a1628; }
+.fg input, .fg select { padding: 12px 14px; border: 2px solid #e5d9c3; border-radius: 8px; font-size: 15px; font-family: inherit; outline: none; background: #fdf8ef; }
+.fg input:focus, .fg select:focus { border-color: #c9a84c; background: white; }
+.err { color: #dc2626; font-size: 12px; display: none; }
+.err.show { display: block; }
+
+.cont-btn, .sub-btn, .nxt-btn { padding: 14px 32px; background: #c9a84c; color: #0a1628; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; }
+.cont-btn { width: 100%; margin-top: 8px; }
+.cont-btn:hover, .sub-btn:hover, .nxt-btn:hover { background: #e8c97a; }
+.cont-btn:disabled { background: #d9d2c2; color: #9a927e; cursor: not-allowed; }
+.back-btn { padding: 13px 32px; background: transparent; color: #6b7280; border: 2px solid #e5d9c3; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+
+.screen { display: none; }
+.screen.active { display: block; }
+.nav-row { display: flex; justify-content: space-between; gap: 12px; }
+
+.gate-card { background: #fff; border: 1px solid #e5d9c3; border-radius: 12px; padding: 44px 28px; text-align: center; margin-bottom: 16px; }
+.gate-card .em { font-size: 44px; margin-bottom: 10px; }
+.gate-card h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #0a1628; margin-bottom: 12px; }
+.gate-card p { color: #4a4436; font-size: 15px; line-height: 1.7; max-width: 460px; margin: 0 auto 22px; }
+.gate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.notice { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #92700e; margin-bottom: 20px; text-align: center; line-height: 1.6; }
+
+.qcard { background: white; border: 1px solid #e5d9c3; border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+.q-num { display: inline-block; background: #0a1628; color: #c9a84c; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 20px; color: #0a1628; line-height: 1.5; margin-bottom: 24px; }
+.ans-list { display: flex; flex-direction: column; gap: 10px; }
+.ans-btn { width: 100%; padding: 14px 18px; border: 2px solid #e5d9c3; border-radius: 10px; background: #fdf8ef; font-size: 15px; font-family: inherit; color: #1a1a2e; cursor: pointer; text-align: left; transition: all 0.15s; }
+.ans-btn:hover { border-color: #c9a84c; background: white; }
+.ans-btn.selected { border-color: #0a1628; background: #0a1628; color: white; font-weight: 600; }
+
+.result-hero { background: #0a1628; border-radius: 16px; padding: 36px 28px; text-align: center; margin-bottom: 20px; }
+.result-hero .score { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; color: #c9a84c; line-height: 1; }
+.result-hero .score-label { color: rgba(255,255,255,0.55); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 8px 0 18px; }
+.result-hero .msg { color: rgba(255,255,255,0.9); font-size: 16px; line-height: 1.7; max-width: 470px; margin: 0 auto; }
+.result-hero .badge-line { color: #e8c97a; font-size: 13px; font-weight: 600; margin-top: 18px; }
+
+.pha-card { background: #f5e6c0; border: 1px solid #d9c48c; border-radius: 12px; padding: 28px; margin-bottom: 20px; text-align: center; }
+.pha-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: #0a1628; margin-bottom: 6px; }
+.pha-card p { color: #92700e; font-size: 14px; margin-bottom: 18px; line-height: 1.6; }
+.pha-btn { display: inline-block; background: #0a1628; color: #c9a84c; padding: 16px 34px; border-radius: 10px; font-size: 16px; font-weight: 700; text-decoration: none; }
+.pha-btn:hover { background: #14203a; }
+
+.breakdown { background: #fff; border: 1px solid #e5d9c3; border-radius: 12px; padding: 24px; }
+.breakdown h3 { font-family: 'Playfair Display', serif; font-size: 17px; color: #0a1628; margin-bottom: 16px; text-align: center; }
+.brow { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px solid #f0e8d6; }
+.brow:last-child { border-bottom: none; }
+.brow .mark { font-size: 18px; flex-shrink: 0; }
+.brow .bq-text { font-size: 14px; color: #1a1a2e; line-height: 1.5; }
+.brow .bq-correct { font-size: 13px; color: #15803d; font-weight: 600; margin-top: 3px; }
+.bgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.bq { background: #fdf8ef; border: 1px solid #e5d9c3; border-radius: 8px; padding: 8px 4px; text-align: center; }
+.bqn { font-size: 11px; color: #6b7280; font-weight: 600; }
+.bqi { font-size: 18px; }
+
+.footer { text-align: center; padding: 24px; color: #6b7280; font-size: 12px; border-top: 1px solid #e5d9c3; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Let's Practice Wellness&trade; Systems</div>
+  <h1>Before Your <span>Personal Health Assessment</span></h1>
+  <p>Dr. Robert L. Wiedemann, D.C.</p>
+</div>
+
+<div class="progress-bar-wrap" id="progWrap">
+  <div class="progress-bar-inner">
+    <span class="progress-text" id="progText">Question 1 of 15</span>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+    <span class="progress-text" id="progPct" style="text-align:right">0%</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SCREEN 1: DISCLOSURE + AGREEMENT + CAPTURE + RELATIONSHIP -->
+  <div class="screen active" id="s-gate">
+    <div class="disclosure">
+      <h2>A Note of Full Disclosure</h2>
+      <p>Let's Practice Wellness&trade; and Wellness Revolution Systems&trade; work intimately with independent Youngevity&reg; distributors, including the individual who shared this with you. Therefore, in the course of your Personal Health Assessment they will, more likely than not, recommend and/or promote Youngevity products. The reason is straightforward: Youngevity is the company Dr. Joel Wallach founded so that his products would be formulated in the manner his protocols require.</p>
+      <div class="agree-row" onclick="toggleAgree()">
+        <input type="checkbox" id="agree" onclick="event.stopPropagation(); syncAgree(this)">
+        <label for="agree">I understand, and I'd like to continue to my Personal Health Assessment.</label>
+      </div>
+      <span class="err" id="e-agree" style="margin-top:8px">Please check the box to continue</span>
+    </div>
+
+    <div class="card">
+      <h2>Your Information</h2>
+      <div class="sub">In the meantime, would you please answer a few questions for us? First, so we can prepare for your assessment:</div>
+      <div class="form-row">
+        <div class="fg"><label>First Name *</label><input type="text" id="firstName" autocomplete="off" placeholder="First Name"><span class="err" id="e-firstName">Required</span></div>
+        <div class="fg"><label>Last Name *</label><input type="text" id="lastName" autocomplete="off" placeholder="Last Name"><span class="err" id="e-lastName">Required</span></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Email Address *</label><input type="email" id="email" autocomplete="off" placeholder="Email Address"><span class="err" id="e-email">Valid email required</span></div>
+        <div class="fg"><label>Phone Number *</label><input type="tel" id="phone" autocomplete="off" placeholder="Phone Number"><span class="err" id="e-phone">Required</span></div>
+      </div>
+      <div class="fg">
+        <label>Which best describes you? *</label>
+        <select id="relationship">
+          <option value="">Please select...</option>
+          <option value="new">I'm new to Dr. Wallach and Youngevity</option>
+          <option value="notsure">I've heard of it, but I'm not sure yet</option>
+          <option value="customer">I already use Youngevity products</option>
+          <option value="distributor">I'm already a Youngevity distributor</option>
+          <option value="amazon">I've bought Youngevity on Amazon or eBay</option>
+        </select>
+        <span class="err" id="e-relationship">Please make a selection</span>
+      </div>
+      <button class="cont-btn" id="gateBtn">Continue</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: WALK OF SHAME (Amazon/eBay) -->
+  <div class="screen" id="s-shame">
+    <div class="gate-card">
+      <div class="em">&#9888;&#65039;</div>
+      <h2>A Word of Caution</h2>
+      <p>Youngevity products sold on Amazon and eBay are not authorized by the company. They are frequently expired, counterfeit, mishandled, or diverted &mdash; and they carry no guarantee. To get genuine products and true results, they must come through an authorized distributor.</p>
+      <p style="font-weight:600;color:#0a1628">Would you like to continue the right way &mdash; with authentic products and a real Personal Health Assessment?</p>
+      <div class="gate-actions">
+        <button class="sub-btn" onclick="show('s-quizintro')">Yes, continue the right way</button>
+        <button class="back-btn" onclick="show('s-gate')">Go back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: EXISTING DISTRIBUTOR -> UPLINE -->
+  <div class="screen" id="s-upline">
+    <div class="gate-card">
+      <div class="em">&#129309;</div>
+      <h2>You Already Have a Team</h2>
+      <p>Thank you &mdash; and welcome! Since you're already a Youngevity distributor, the right person to guide your health journey is your own sponsor or upline. We'd encourage you to reach out to them first.</p>
+      <p>If you'd still like to take the quiz for your own learning, you're welcome to continue.</p>
+      <div class="gate-actions">
+        <button class="sub-btn" onclick="show('s-quizintro')">Continue to the questions</button>
+        <button class="back-btn" onclick="show('s-gate')">Go back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4a: QUIZ INTRO -->
+  <div class="screen" id="s-quizintro">
+    <div class="gate-card">
+      <div class="em">&#128221;</div>
+      <h2>A Few Quick Questions</h2>
+      <p>Thank you. While we set up your Personal Health Assessment, would you please answer a few short questions for us? These come straight from Dr. Wallach's lecture &mdash; just do your best. There's no pressure here.</p>
+      <div class="gate-actions">
+        <button class="sub-btn" onclick="startQuiz()">Begin the questions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4b: QUIZ -->
+  <div class="screen" id="s-quiz">
+    <div class="qcard" id="qcard"></div>
+    <div class="nav-row">
+      <button class="back-btn" id="backBtn">Back</button>
+      <button class="nxt-btn" id="nxtBtn">Next</button>
+      <button class="sub-btn" id="subBtn" style="display:none">See My Results</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: RESULTS -> PHA -->
+  <div class="screen" id="s-results">
+    <div class="result-hero">
+      <div class="score" id="scoreNum">0/15</div>
+      <div class="score-label">Your Health IQ Score</div>
+      <div class="msg" id="resultMsg"></div>
+      <div class="badge-line" id="badgeLine"></div>
+    </div>
+
+    <div class="pha-card">
+      <h3>You're Ready for the Next Step</h3>
+      <p>Now let's talk about <em>your</em> health. Book your free Personal Health Assessment with Dr. Wiedemann.</p>
+      <a class="pha-btn" id="phaBtn" href="#" target="_blank">Schedule My Personal Health Assessment</a>
+    </div>
+
+    <div class="breakdown" id="breakdown"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Let's Practice Wellness&trade; Systems &mdash; Dr. Robert L. Wiedemann, D.C. &mdash; All Rights Reserved<br>
+  Dead Doctors Don't Lie&reg; featuring Dr. Joel Wallach &middot; Independent Youngevity&reg; Distributor
+</div>
+
+<script>
+/* ============================================================
+   WRS CONFIG BLOCK  —  set these before going live
+   ------------------------------------------------------------
+   APPS_SCRIPT_URL — quiz connector (triple-confirmed canonical).
+   PHA_BOOKING_URL — PRIMARY booking front door = GHL. Google
+                     Appointment Schedule is the RETAINED BACKUP;
+                     if GHL lapses, swap this one line to the
+                     Google booking link. >> Confirm GHL go-live. 
+   LISTEN_URL      — personalized DDDL lecture (my94life, id=922).
+   REVEAL_ANSWERS  — true shows the correct answers on results as
+                     a victory lap (fits education-first: they've
+                     already listened). false shows only right/wrong.
+   ============================================================ */
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzh4W8n7YyNj0xI1gqJpZ2-4R66yHlXAv3ZlS9gYFVmVwn4UflrobaphoIOWRV4MLHCuQ/exec';
+var PHA_BOOKING_URL = 'https://api.leadconnectorhq.com/widget/bookings/pha-with-dr-wiedemann-8070';
+var LISTEN_URL      = 'https://101297389.my94life.com/public/PlayVideo.aspx?id=922';
+var REVEAL_ANSWERS  = true;
+
+var SHEET_URL = APPS_SCRIPT_URL;
+
+var QS = [
+  { q: "Approximately, how many species of animals did Dr. Wallach perform autopsies on?", opts: ["45 species","454 species","120 species","300 species"], c: 1 },
+  { q: "According to JAMA, the average lifespan of medical doctors in the United States is approximately how long?", opts: ["58 years","75 years","91 years","105 years"], c: 0 },
+  { q: "(True / False) Medical doctors receive extensive training in nutrition during medical school.", opts: ["True","False"], c: 1 },
+  { q: "Deficiency of which mineral is commonly associated with heart rhythm disturbances?", opts: ["Calcium","Sodium","Iron","Magnesium"], c: 3 },
+  { q: "(True / False) Most chronic diseases are primarily caused by genetics and cannot be prevented.", opts: ["True","False"], c: 1 },
+  { q: "What is the primary underlying cause of osteoporosis?", opts: ["Aging","Lack of sunlight","Mineral deficiency","Lack of calcium alone"], c: 2 },
+  { q: "Deficiency of which mineral has been linked to cardiomyopathy in certain regions of the world?", opts: ["Zinc","Chromium","Potassium","Selenium"], c: 3 },
+  { q: "Cystic fibrosis has been associated with deficiency of which nutrient?", opts: ["Calcium","Vitamin C","Selenium","Zinc"], c: 2 },
+  { q: "Adequate intake of which vitamin during pregnancy helps prevent many birth defects?", opts: ["Vitamin D","Folic Acid","Vitamin A","Vitamin K"], c: 1 },
+  { q: "Sudden cardiac death has often been linked to deficiency of which mineral?", opts: ["Iron","Magnesium","Calcium","Potassium"], c: 1 },
+  { q: "Dr. Wallach has stated that the human body requires approximately how many essential nutrients for optimal health?", opts: ["30","90","16","60"], c: 1 },
+  { q: "According to Dr. Wallach, modern farming practices have reduced the mineral content of food because farmers often replace only which nutrients in the soil?", opts: ["Calcium and magnesium","Sulfur and copper","Nitrogen, phosphorus, and potassium","Iron and zinc"], c: 2 },
+  { q: "Keshan disease was discovered to be caused by deficiency of which mineral?", opts: ["Iodine","Copper","Selenium","Magnesium"], c: 2 },
+  { q: "(True / False) Some diseases believed to be genetic may actually be caused by nutritional deficiencies.", opts: ["True","False"], c: 0 },
+  { q: "(True / False) Many chronic diseases can be prevented through proper nutrition.", opts: ["True","False"], c: 0 }
+];
+
+var P = {};
+var ANS = new Array(15).fill(null);
+var currentQ = 0;
+
+document.getElementById('phaBtn').href = PHA_BOOKING_URL;
+
+var urlParams = new URLSearchParams(window.location.search);
+var refName = urlParams.get('ref') || '';
+var refPhone = urlParams.get('refphone') || '';
+var refEmail = urlParams.get('refemail') || '';
+
+function show(id) {
+  var all = document.querySelectorAll('.screen');
+  for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function toggleAgree() { var c = document.getElementById('agree'); c.checked = !c.checked; syncAgree(c); }
+function syncAgree(c) { if (c.checked) document.getElementById('e-agree').classList.remove('show'); }
+
+document.getElementById('gateBtn').onclick = function() {
+  var fn = document.getElementById('firstName').value.trim();
+  var ln = document.getElementById('lastName').value.trim();
+  var em = document.getElementById('email').value.trim();
+  var ph = document.getElementById('phone').value.trim();
+  var rel = document.getElementById('relationship').value;
+  var agreed = document.getElementById('agree').checked;
+  var ok = true;
+
+  document.getElementById('e-agree').classList[agreed ? 'remove' : 'add']('show'); if (!agreed) ok = false;
+  document.getElementById('e-firstName').classList[fn ? 'remove' : 'add']('show'); if (!fn) ok = false;
+  document.getElementById('e-lastName').classList[ln ? 'remove' : 'add']('show'); if (!ln) ok = false;
+  document.getElementById('e-email').classList[(em && em.indexOf('@') > 0) ? 'remove' : 'add']('show'); if (!em || em.indexOf('@') < 0) ok = false;
+  document.getElementById('e-phone').classList[ph ? 'remove' : 'add']('show'); if (!ph) ok = false;
+  document.getElementById('e-relationship').classList[rel ? 'remove' : 'add']('show'); if (!rel) ok = false;
+  if (!ok) return;
+
+  P = { firstName:fn, lastName:ln, email:em, phone:ph, relationship:rel };
+
+  if (rel === 'amazon') { show('s-shame'); return; }
+  if (rel === 'distributor') { show('s-upline'); return; }
+  show('s-quizintro');
+};
+
+document.getElementById('backBtn').onclick = function() { if (currentQ > 0) { currentQ--; renderQ(); } };
+document.getElementById('nxtBtn').onclick = function() {
+  if (ANS[currentQ] === null) { alert('Please select an answer before continuing.'); return; }
+  currentQ++; renderQ();
+};
+document.getElementById('subBtn').onclick = function() {
+  if (ANS[currentQ] === null) { alert('Please select an answer before continuing.'); return; }
+  renderResults();
+};
+
+function startQuiz() { show('s-quiz'); document.getElementById('progWrap').style.display = 'block'; currentQ = 0; renderQ(); }
+
+function renderQ() {
+  var q = QS[currentQ];
+  var pct = Math.round((currentQ / 15) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progText').textContent = 'Question ' + (currentQ+1) + ' of 15';
+
+  var html = '<div class="q-num">Question ' + (currentQ+1) + ' of 15</div>';
+  html += '<div class="q-text">' + q.q + '</div><div class="ans-list">';
+  for (var i = 0; i < q.opts.length; i++) {
+    html += '<button class="ans-btn' + (ANS[currentQ] === i ? ' selected' : '') + '" data-idx="' + i + '">' + q.opts[i] + '</button>';
+  }
+  html += '</div>';
+  document.getElementById('qcard').innerHTML = html;
+
+  var btns = document.querySelectorAll('.ans-btn');
+  for (var j = 0; j < btns.length; j++) {
+    (function(btn) {
+      btn.onclick = function() {
+        var all = document.querySelectorAll('.ans-btn');
+        for (var k = 0; k < all.length; k++) all[k].classList.remove('selected');
+        this.classList.add('selected');
+        ANS[currentQ] = parseInt(this.getAttribute('data-idx'));
+      };
+    })(btns[j]);
+  }
+  document.getElementById('backBtn').style.display = currentQ === 0 ? 'none' : 'inline-block';
+  document.getElementById('nxtBtn').style.display = currentQ < 14 ? 'inline-block' : 'none';
+  document.getElementById('subBtn').style.display = currentQ === 14 ? 'inline-block' : 'none';
+}
+
+function renderResults() {
+  var score = 0;
+  for (var i = 0; i < 15; i++) { if (ANS[i] === QS[i].c) score++; }
+  var pct = Math.round((score/15)*100);
+
+  document.getElementById('scoreNum').textContent = score + '/15';
+
+  var msg = '';
+  if (score >= 13) msg = "Outstanding, " + P.firstName + "! You clearly absorbed Dr. Wallach's message. Now let's put it to work for your own health.";
+  else if (score >= 9) msg = "Well done, " + P.firstName + "! You picked up the heart of the lecture. Your Personal Health Assessment is where it gets personal.";
+  else if (score >= 5) msg = "Good effort, " + P.firstName + "! You caught some of the key ideas &mdash; and your assessment is the perfect place to go deeper.";
+  else msg = "Thank you, " + P.firstName + "! There's a great deal to absorb here, and that's exactly what your Personal Health Assessment is for.";
+  document.getElementById('resultMsg').innerHTML = msg;
+
+  var bd = document.getElementById('breakdown');
+  if (REVEAL_ANSWERS) {
+    var h = '<h3>How You Did</h3>';
+    for (var i = 0; i < 15; i++) {
+      var right = ANS[i] === QS[i].c;
+      h += '<div class="brow"><span class="mark">' + (right ? '&#9989;' : '&#10060;') + '</span><div><div class="bq-text">Q' + (i+1) + '. ' + QS[i].q + '</div>';
+      if (!right) h += '<div class="bq-correct">Correct answer: ' + QS[i].opts[QS[i].c] + '</div>';
+      h += '</div></div>';
+    }
+    bd.innerHTML = h;
+  } else {
+    var g = '<h3>Your Answer Breakdown</h3><div class="bgrid">';
+    for (var i = 0; i < 15; i++) g += '<div class="bq"><div class="bqn">Q'+(i+1)+'</div><div class="bqi">'+(ANS[i]===QS[i].c?'&#9989;':'&#10060;')+'</div></div>';
+    bd.innerHTML = g + '</div>';
+  }
+
+  show('s-results');
+  document.getElementById('progWrap').style.display = 'none';
+  sendData('DDDL_PREPHA_COMPLETE', score, pct);
+}
+
+function sendData(status, score, pct) {
+  var data = {
+    timestamp: new Date().toISOString(),
+    firstName: P.firstName || '', lastName: P.lastName || '',
+    email: P.email || '', phone: P.phone || '',
+    relationship: P.relationship || '', status: status,
+    score: score, scorePct: pct, answers: ANS.join(','),
+    refName: refName, refPhone: refPhone, refEmail: refEmail
+  };
+  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) })
+    .catch(function(e){ console.log('Error:', e); });
+}
+</script>
+</body>
+</html>
