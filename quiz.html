@@ -232,16 +232,20 @@ body { font-family: 'DM Sans', Arial, sans-serif; background: #fdf8ef; color: #1
    WRS CONFIG BLOCK  —  set these before going live
    ------------------------------------------------------------
    APPS_SCRIPT_URL — quiz connector (triple-confirmed canonical).
+   GHL_WEBAPP_URL  — WRS-GHL-Connector web app; pushes each
+                     completed quiz lead into GoHighLevel as a
+                     tagged contact (added Sep 2026).
    PHA_BOOKING_URL — PRIMARY booking front door = GHL. Google
                      Appointment Schedule is the RETAINED BACKUP;
                      if GHL lapses, swap this one line to the
-                     Google booking link. >> Confirm GHL go-live. 
+                     Google booking link. >> Confirm GHL go-live.
    LISTEN_URL      — personalized DDDL lecture (my94life, id=922).
    REVEAL_ANSWERS  — true shows the correct answers on results as
                      a victory lap (fits education-first: they've
                      already listened). false shows only right/wrong.
    ============================================================ */
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzh4W8n7YyNj0xI1gqJpZ2-4R66yHlXAv3ZlS9gYFVmVwn4UflrobaphoIOWRV4MLHCuQ/exec';
+var GHL_WEBAPP_URL  = 'https://script.google.com/macros/s/AKfycbys1p-q5EgivQcHGLe9N1DYnH-t1aL30kt8uB8yUPdHhWE7X7P1RoTlOqDb0mlCtEg/exec';
 var PHA_BOOKING_URL = 'https://api.leadconnectorhq.com/widget/bookings/pha-with-dr-wiedemann-8070';
 var LISTEN_URL      = 'https://101297389.my94life.com/public/PlayVideo.aspx?id=922';
 var REVEAL_ANSWERS  = true;
@@ -399,6 +403,18 @@ function sendData(status, score, pct) {
   };
   fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) })
     .catch(function(e){ console.log('Error:', e); });
+
+  // Push the same lead into GoHighLevel (WRS-GHL-Connector)
+  var ghlTags = ['quiz-completed', 'rel-' + (P.relationship || 'unknown')];
+  if (pct >= 80) ghlTags.push('quiz-high-score');
+  fetch(GHL_WEBAPP_URL, {
+    method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      firstName: P.firstName || '', lastName: P.lastName || '',
+      email: P.email || '', phone: P.phone || '',
+      tags: ghlTags
+    })
+  }).catch(function(e){ console.log('GHL Error:', e); });
 }
 </script>
 </body>
