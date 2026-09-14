@@ -516,9 +516,6 @@ footer span { color: rgba(201,168,76,0.4); }
 
 <div class="wrap">
 
-<!-- ══════════════════════════════════════════
-     SCREEN: WELCOME BACK + CONFIRM
-════════════════════════════════════════════ -->
 <div class="screen active" id="screen-welcome">
   <div style="text-align:center;margin-bottom:28px;">
     <div class="eyebrow">Dead Doctors Don't Lie® — After Quiz</div>
@@ -551,9 +548,6 @@ footer span { color: rgba(201,168,76,0.4); }
   </button>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: AFTER QUIZ
-════════════════════════════════════════════ -->
 <div class="screen" id="screen-quiz">
   <div style="text-align:center;margin-bottom:24px;">
     <div class="eyebrow">After Quiz — Right &amp; Wrong Revealed</div>
@@ -575,9 +569,6 @@ footer span { color: rgba(201,168,76,0.4); }
   <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next Question →</button>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: RESULTS — IMPROVED
-════════════════════════════════════════════ -->
 <div class="screen" id="screen-results">
   <div style="text-align:center;margin-bottom:28px;">
     <div class="eyebrow">Your After Quiz Results</div>
@@ -608,18 +599,15 @@ footer span { color: rgba(201,168,76,0.4); }
 
   <div class="choice-section">
     <div class="choice-title">So What's It Going to Be?</div>
-    <a href="https://calendar.app.google/qjVwqpFR94u3xavh6" target="_blank" class="btn-pha">
+    <a href="#" class="btn-pha" id="phaBtn" target="_blank">
       📋 I'm Ready — Let's Talk. Schedule My Personal Health Assessment with Dr. Wiedemann Now
     </a>
     <a href="wmdk.html" class="btn-wmdk">
-      🔥 I'm Not Done Yet — Show Me Who Made MD's King™
+      🔥 I'm Not Done Yet — Who Made MD's King™
     </a>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: TOUGH LOVE — SCORED LOWER
-════════════════════════════════════════════ -->
 <div class="screen" id="screen-tough-love">
   <div class="tough-love-box">
     <h2>Houston, We Have a Problem.</h2>
@@ -647,7 +635,7 @@ footer span { color: rgba(201,168,76,0.4); }
   <a href="index.html" class="btn-secondary">← Start Over from the Beginning</a>
 </div>
 
-</div><!-- /wrap -->
+</div>
 
 <footer>
   <p>Wellness Revolution Systems™ — Dr. Robert L. Wiedemann, D.C. — All Rights Reserved<br>
@@ -655,7 +643,9 @@ footer span { color: rgba(201,168,76,0.4); }
 </footer>
 
 <script>
-// ── QUESTIONS ──────────────────────────────────────────────
+var PHA_BOOKING_URL = 'https://api.leadconnectorhq.com/widget/bookings/pha-with-dr-wiedemann-8070';
+document.getElementById('phaBtn').href = PHA_BOOKING_URL;
+
 const QUESTIONS = [
   { q: "Approximately, how many species of animals did Dr. Wallach™ perform autopsies on?",
     opts: ["45 species","454 species","120 species","300 species"], correct: 1 },
@@ -691,7 +681,6 @@ const QUESTIONS = [
 
 const LETTERS = ['A','B','C','D'];
 
-// ── STATE ──────────────────────────────────────────────────
 const state = {
   currentQ: 0,
   answers: new Array(15).fill(null),
@@ -702,7 +691,6 @@ const state = {
   firstName: ''
 };
 
-// ── INIT ───────────────────────────────────────────────────
 window.addEventListener('load', function() {
   const badge      = localStorage.getItem('wrs_badge_number');
   const before     = localStorage.getItem('wrs_before_score');
@@ -730,14 +718,12 @@ window.addEventListener('load', function() {
   }
 });
 
-// ── SCREEN MANAGEMENT ──────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
 
-// ── START AFTER QUIZ ───────────────────────────────────────
 function startAfterQuiz() {
   state.currentQ = 0;
   state.answers  = new Array(15).fill(null);
@@ -746,7 +732,6 @@ function startAfterQuiz() {
   renderQuestion();
 }
 
-// ── QUIZ ENGINE ────────────────────────────────────────────
 function renderQuestion() {
   const q = QUESTIONS[state.currentQ];
   document.getElementById('question-num').textContent  = 'Question ' + (state.currentQ + 1);
@@ -807,7 +792,6 @@ function nextQuestion() {
   }
 }
 
-// ── FINISH ─────────────────────────────────────────────────
 function finishQuiz() {
   const afterScore = state.answers.reduce((acc, ans, i) =>
     acc + (ans === QUESTIONS[i].correct ? 1 : 0), 0);
@@ -816,7 +800,6 @@ function finishQuiz() {
   const beforeScore = state.beforeScore;
   const beforePct   = state.beforePct;
 
-  // Breakdown grid
   const grid = document.getElementById('breakdown-grid');
   grid.innerHTML = '';
   QUESTIONS.forEach((q, i) => {
@@ -827,20 +810,17 @@ function finishQuiz() {
     grid.appendChild(cell);
   });
 
-  // If scored LOWER — show tough love
   if (afterScore < beforeScore) {
     showScreen('screen-tough-love');
     return;
   }
 
-  // Render comparison
   document.getElementById('before-score-display').textContent = beforeScore + '/15';
   document.getElementById('before-pct-display').textContent   = beforePct + '%';
   document.getElementById('after-score-display').textContent  = afterScore + '/15';
   document.getElementById('after-pct-display').textContent    = afterPct + '%';
   document.getElementById('improvement-display').textContent  = (improvement >= 0 ? '+' : '') + improvement + ' pts';
 
-  // Message
   const name = state.firstName ? state.firstName : 'Friend';
   const msgEl = document.getElementById('results-message-text');
   msgEl.innerHTML =
